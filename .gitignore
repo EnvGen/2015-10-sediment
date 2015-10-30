@@ -1,0 +1,6 @@
+assembly/*
+data/reads*
+concoct/*
+mapping/*
+annotation/*
+.snakemake/*
