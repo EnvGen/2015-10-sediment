@@ -66,7 +66,10 @@ for read_file in glob.glob("samples/raw/*.fq.gz"):
             if "common_variables" in trim_params_config.keys():
                 variables = config["cutadapt_rules"]["trim_params"][trim_params_name]["common_variables"].copy()
                 variables["R1_index"] = sample_indices["R1_index"][read_name]
-                variables["R2_rev_index"] = sample_indices["R2_rev_index"][read_name]
+                if "R2_rev_index" in sample_indices:
+                    variables["R2_rev_index"] = sample_indices["R2_rev_index"][read_name]
+                else:
+                    variables["R2_rev_index"] = None
                 if "variables" not in config["cutadapt_rules"]["trim_params"][trim_params_name]:
                     config["cutadapt_rules"]["trim_params"][trim_params_name]["variables"] = {}
                 config["cutadapt_rules"]["trim_params"][trim_params_name]["variables"][read_name] = variables
