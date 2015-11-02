@@ -1,5 +1,5 @@
 assembly/*
-data/reads*
+samples/*
 concoct/*
 mapping/*
 annotation/*
