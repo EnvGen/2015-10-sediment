@@ -23,10 +23,7 @@ if not submodule_status == b"":
     raise Exception("Repo is dirty. Commit changes before proceeding.")
 
 # Chose config file based on if we're on uppmax or not
-if 'SNIC_RESOURCE' in os.environ:
-    configfile: "config_uppmax.json"
-else:
-    configfile: "config.json"
+configfile: "config.json"
 
 config["fastqc_rules"]["reads"] = {}
 config["cutadapt_rules"]["reads"] = {}
