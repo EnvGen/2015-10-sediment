@@ -45,6 +45,9 @@
             "all_pog": ""
         }
     },
+    "fastqc_rules": {
+        "load_env": "module load bioinfo-tools FastQC/0.11.2"
+    },
     "cutadapt_rules": {
         "load_env": "module load bioinfo-tools cutadapt/1.8.0",
         "trim_params": {
@@ -66,6 +69,13 @@
                 }
             }
         }
+    },
+    "fastuniq_rules": {
+    },
+    "megahit_rules": {
+        "load_env": "",
+        "assembly_params": {"default": ""},
+        "coassembly_params": {"default": "-m 0.99 --continue"}
     },
     "assembly_dir": ["assembly/"],
     "toolbox_dir": "toolbox"
