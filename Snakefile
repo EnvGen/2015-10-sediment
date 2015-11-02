@@ -101,21 +101,13 @@ rule preprocess_all:
 
 
 # Testing rules and configs
-rule cutadapt_all_test:
-    """Trim all reads with all supplied trimming parameters"""
-    input:
-        trimmed_reads=expand("cutadapt/adapt_cutting/{trim_params}/{reads}_{ext}.fq.gz",
-        reads={"120628": ['samples/raw/120628_R1.fq.gz', 'samples/raw/120628_R2.fq.gz']},
-        trim_params=config["cutadapt_rules"]["trim_params"],
-        ext=["R1","R2"])
-
 test_reads_orig = {
-            "P1994_101_R1": "samples/raw/P1994_101_R1.fq.gz",
-            "P1994_101_R2": "samples/raw/P1994_101_R2.fq.gz",
-            "P1994_102_R1": "samples/raw/P1994_102_R1.fq.gz",
-            "P1994_102_R2": "samples/raw/P1994_102_R2.fq.gz",
-            "P1994_110_R1": "samples/raw/P1994_110_R1.fq.gz",
-            "P1994_110_R2": "samples/raw/P1994_110_R2.fq.gz"
+            "P2237_101_R1": "samples/raw/P2237_101_R1.fq.gz",
+            "P2237_101_R2": "samples/raw/P2237_101_R2.fq.gz",
+            "P2237_102_R1": "samples/raw/P2237_102_R1.fq.gz",
+            "P2237_102_R2": "samples/raw/P2237_102_R2.fq.gz",
+            "P2237_110_R1": "samples/raw/P2237_110_R1.fq.gz",
+            "P2237_110_R2": "samples/raw/P2237_110_R2.fq.gz"
         }
 
 test_reads = {}
