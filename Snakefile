@@ -9,18 +9,18 @@ import glob
 from subprocess import check_output
 
 # Check that no submodule git repo is dirty
-submodules = ["BLUEPRINT_pipeline"]
-for submodule in submodules:
-    submodule_status = check_output(["git", "status", "--porcelain", submodule])
-    if not submodule_status == b"":
-        print(submodule_status)
-        raise Exception("Submodule {} is dirty. Commit changes before proceeding.".format(submodule))
+#submodules = ["BLUEPRINT_pipeline"]
+#for submodule in submodules:
+#    submodule_status = check_output(["git", "status", "--porcelain", submodule])
+#    if not submodule_status == b"":
+#        print(submodule_status)
+#        raise Exception("Submodule {} is dirty. Commit changes before proceeding.".format(submodule))
 
 # Check that the git repo is not dirty
-submodule_status = check_output(["git", "status", "--porcelain"])
-if not submodule_status == b"":
-    print(submodule_status)
-    raise Exception("Repo is dirty. Commit changes before proceeding.")
+#submodule_status = check_output(["git", "status", "--porcelain"])
+#if not submodule_status == b"":
+#    print(submodule_status)
+#    raise Exception("Repo is dirty. Commit changes before proceeding.")
 
 # Chose config file based on if we're on uppmax or not
 configfile: "config.json"
@@ -106,8 +106,8 @@ test_reads_orig = {
             "P2237_101_R2": "samples/raw/P2237_101_R2.fq.gz",
             "P2237_102_R1": "samples/raw/P2237_102_R1.fq.gz",
             "P2237_102_R2": "samples/raw/P2237_102_R2.fq.gz",
-            "P2237_110_R1": "samples/raw/P2237_110_R1.fq.gz",
-            "P2237_110_R2": "samples/raw/P2237_110_R2.fq.gz"
+            "P2237_111_R1": "samples/raw/P2237_110_R1.fq.gz",
+            "P2237_111_R2": "samples/raw/P2237_110_R2.fq.gz"
         }
 
 test_reads = {}

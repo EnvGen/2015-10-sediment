@@ -3,4 +3,8 @@ samples/*
 concoct/*
 mapping/*
 annotation/*
+cutadapt/*
+fastuniq/*
+fastqc/*
+finished_reads/*
 .snakemake/*
