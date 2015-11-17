@@ -1,0 +1,71 @@
+## ##
+## START JOB 6477113 - snakemake_megahit_coassemble_split
+## Tue Nov 17 17:33:48 CET 2015
+## COMMAND: /gulo/proj_nobackup/b2010008/projects/2015-10-sediment/.snakemake/tmp.6RDY4O/snakejob.megahit_coassemble_split.0.sh
+## OMP_NUM_THREADS: 1
+## LOGFILE: /home/alneberg/jobs.log
+Subsequent jobs will be added dynamically depending on the output of this rule
+discarding /home/alneberg/miniconda/envs/snakemake/bin from PATH
+prepending /home/alneberg/miniconda/envs/concoct/bin to PATH
+contigs.0.fasta
+contigs.1.fasta
+contigs.2.fasta
+contigs.3.fasta
+contigs.4.fasta
+contigs.5.fasta
+contigs.6.fasta
+contigs.7.fasta
+contigs.8.fasta
+contigs.9.fasta
+contigs.10.fasta
+contigs.11.fasta
+contigs.12.fasta
+contigs.13.fasta
+contigs.14.fasta
+contigs.15.fasta
+contigs.16.fasta
+contigs.17.fasta
+contigs.18.fasta
+contigs.19.fasta
+contigs.20.fasta
+contigs.21.fasta
+contigs.22.fasta
+contigs.23.fasta
+contigs.24.fasta
+contigs.25.fasta
+contigs.26.fasta
+contigs.27.fasta
+contigs.28.fasta
+contigs.29.fasta
+contigs.30.fasta
+contigs.31.fasta
+contigs.32.fasta
+contigs.33.fasta
+contigs.34.fasta
+contigs.35.fasta
+contigs.36.fasta
+contigs.37.fasta
+contigs.38.fasta
+contigs.39.fasta
+contigs.40.fasta
+contigs.41.fasta
+contigs.42.fasta
+contigs.43.fasta
+contigs.44.fasta
+contigs.45.fasta
+contigs.46.fasta
+contigs.47.fasta
+contigs.48.fasta
+contigs.49.fasta
+contigs.50.fasta
+contigs.51.fasta
+contigs.52.fasta
+contigs.53.fasta
+contigs.54.fasta
+contigs.55.fasta
+contigs.56.fasta
+Dynamically updating jobs
+## Tue Nov 17 17:48:33 CET 2015
+## Elapsed time: 00-00:14:45
+## FINISHED JOB 6477113 - snakemake_megahit_coassemble_split
+## ##
