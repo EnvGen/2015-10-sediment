@@ -84,6 +84,11 @@ for read_file in glob.glob("finished_reads/*.fq.gz"):
         config["megahit_rules"]["samples"][sample_name].sort()
     else:
         config["megahit_rules"]["samples"][sample_name] = [read_file]
+
+for contigs_f in glob.glob("assembly/megahit_coassembly/default/parts/contigs.0.fasta"):
+    part = contigs_f.split('.')[-2]
+    config["prokka_extended_rules"]["contigs"]['megahit_coassembly.{}'.format(part)] = contigs_f
+
 WORKFLOW_DIR = "snakemake-workflows/"
 
 #include: os.path.join(WORKFLOW_DIR, "rules/mapping/bowtie2.rules")
@@ -93,6 +98,7 @@ include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/trimming/cutadapt.rules")
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/quality_control/fastqc.rules")
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/duplicate_removal/fastuniq.rules")
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/assembly/megahit.rules")
+include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/annotation/prokka.rules")
 
 rule preprocess_all:
     input:
