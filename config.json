@@ -73,7 +73,7 @@
     "fastuniq_rules": {
     },
     "megahit_rules": {
-        "load_env": "",
+        "load_env": "module load concoct",
         "assembly_params": {"default": ""},
         "coassembly_params": {"default": "-m 0.99 --continue"},
         "filter_length_script": "toolbox/scripts/filter_fasta_on_length.py",
