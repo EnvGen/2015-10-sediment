@@ -85,7 +85,7 @@ for read_file in glob.glob("finished_reads/*.fq.gz"):
     else:
         config["megahit_rules"]["samples"][sample_name] = [read_file]
 
-for contigs_f in glob.glob("assembly/megahit_coassembly/default/parts/contigs.0.fasta"):
+for contigs_f in glob.glob("assembly/megahit_coassembly/default/parts/contigs.*.fasta"):
     part = contigs_f.split('.')[-2]
     config["prokka_extended_rules"]["contigs"]['megahit_coassembly.{}'.format(part)] = contigs_f
 
