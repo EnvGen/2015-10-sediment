@@ -89,6 +89,19 @@ for contigs_f in glob.glob("assembly/megahit_coassembly/default/parts/contigs.*.
     part = contigs_f.split('.')[-2]
     config["prokka_extended_rules"]["contigs"]['megahit_coassembly.{}'.format(part)] = contigs_f
 
+# Add megahit coassembly annotated sequences for merging before quantification
+config["prokka_extended_rules"]["merging_sample_sets"] = {}
+config["prokka_extended_rules"]["merging_sample_sets"]["megahit_coassembly"] = []
+for contigs_name, contigs_f in config["prokka_extended_rules"]["contigs"].items():
+    if contigs_name.startswith("megahit_coassembly"):
+        config["prokka_extended_rules"]["merging_sample_sets"]["megahit_coassembly"].append(contigs_name) 
+
+config["prokka_extended_rules"]["merging_sample_sets"]["megahit_coassembly"].sort(key= lambda x: int(x.split('.')[-1]))
+
+megahit_coassembly_genes = "annotation/prokka_extended/all_annotated_sequences/megahit_coassembly/PROKKA.ffn"
+config["kallisto_rules"]["references"]["megahit_coassembly_genes"] = megahit_coassembly_genes
+config["kallisto_rules"]["samples"] = config["megahit_rules"]["samples"]
+
 WORKFLOW_DIR = "snakemake-workflows/"
 
 #include: os.path.join(WORKFLOW_DIR, "rules/mapping/bowtie2.rules")
@@ -99,6 +112,9 @@ include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/quality_control/fastqc.rules"
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/duplicate_removal/fastuniq.rules")
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/assembly/megahit.rules")
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/annotation/prokka.rules")
+include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/quantification/kallisto.rules")
+
+ruleorder: kallisto_quant_sample > kallisto_sample_merge
 
 rule preprocess_all:
     input:

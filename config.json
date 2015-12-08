@@ -95,6 +95,13 @@
             "gff": "toolbox/scripts/extended_prokka/extend_gff.py"
         },
         "contigs": {},
-        "threads": "4"
+        "threads": "4",
+        "rename_fasta_script": "toolbox/scripts/extended_prokka/rename_contigs_in_fasta.py"
     },
+    "kallisto_rules": {
+        "load_env": "",
+        "references": {},
+        "samples": {},
+        "units": {}
+    }
 }
