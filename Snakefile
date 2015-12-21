@@ -102,9 +102,17 @@ megahit_coassembly_genes = "annotation/prokka_extended/all_annotated_sequences/m
 config["kallisto_rules"]["references"]["megahit_coassembly_genes"] = megahit_coassembly_genes
 config["kallisto_rules"]["samples"] = config["megahit_rules"]["samples"]
 
+config["bowtie2_rules"]["units"] = {}
+config["bowtie2_rules"]["samples"] = {}
+for i, sample_t in enumerate(config["kallisto_rules"]["samples"].items()):
+    sample, units = sample_t
+    config["bowtie2_rules"]["units"][sample] = units
+    config["bowtie2_rules"]["samples"][sample] = [sample]
+
+config["bowtie2_rules"]["references"] = {"megahit_coassembly_genes": megahit_coassembly_genes}
 WORKFLOW_DIR = "snakemake-workflows/"
 
-#include: os.path.join(WORKFLOW_DIR, "rules/mapping/bowtie2.rules")
+include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/mapping/bowtie2.rules")
 #include: os.path.join(WORKFLOW_DIR, "rules/mapping/samfiles.rules")
 #include: os.path.join(WORKFLOW_DIR, "rules/quantification/rpkm.rules")
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/trimming/cutadapt.rules")
@@ -115,6 +123,10 @@ include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/annotation/prokka.rules")
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/quantification/kallisto.rules")
 
 ruleorder: kallisto_quant_sample > kallisto_sample_merge
+
+# The index is large, need to use .bt2l indices
+ruleorder: bowtie2_map_large > bowtie2_map
+
 
 rule preprocess_all:
     input:
@@ -154,3 +166,9 @@ rule fastqc_all_test:
         htmls=expand("fastqc/{reads}/{reads}_fastqc.html", reads=test_reads),
         zips=expand("fastqc/{reads}/{reads}_fastqc.zip", reads=test_reads)
 
+rule bowtie2_all:
+    input:
+        expand("mapping/bowtie2/{mapping_params}/{reference}/units/{unit}.bam",
+            mapping_params = config["bowtie2_rules"]["mapping_params"],
+            reference = config["bowtie2_rules"]["references"],
+            unit = config["bowtie2_rules"]["units"])
