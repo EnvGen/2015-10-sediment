@@ -7,5 +7,6 @@ cutadapt/*
 fastuniq/*
 fastqc/*
 finished_reads/*
+mash/*
 quantification/*
 .snakemake/*
