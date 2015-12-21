@@ -37,7 +37,7 @@
         "cores": "2",
         "extra_parameters": ""
     },
-    "schedule_bowtie2_map": {
+    "schedule_bowtie2_map_large": {
         "days": 1,
         "hours": 0,
         "minutes": 0,
