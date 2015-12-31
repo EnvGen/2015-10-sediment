@@ -1,10 +1,10 @@
 {
     "bowtie2_rules": {
+        "load_env": "module load bioinfo-tools bowtie2/2.2.6 samtools/1.1",
         "platform": "Illumina",
         "mapping_params": {
             "default": ""
-        },
-        "load_env": "module load bioinfo-tools bowtie2/2.2.6 samtools/1.1"
+        }
     },
     "samtools_rules": {
         "load_env": "module load bioinfo-tools samtools/1.1 BEDTools/2.21.0 picard/1.118",
