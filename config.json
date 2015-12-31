@@ -18,7 +18,7 @@
         "concoct_params": {
             "cutoff-1000-maxcluster-1000": "-c 1000 -l 1000"
         },
-        "scripts_dir": "/scripts"
+        "scripts_dir": "~/repos/CONCOCT/scripts"
     },
     "prodigal_rules": {
         "load_env": "module load bioinfo-tools prodigal/2.60",
@@ -103,5 +103,16 @@
         "references": {},
         "samples": {},
         "units": {}
+    },
+    "bowtie2_quant_rules": {
+        "load_env": "source activate basic_sandbox",
+        "references": {},
+        "samples": {},
+        "units": {},
+        "mapping_params": {
+            "default": ""
+        },
+        "mapper": "bowtie2",
+        "scripts_dir": "~/repos/CONCOCT/scripts"
     }
 }
