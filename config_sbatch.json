@@ -1,6 +1,6 @@
 {
     "sbatch_general": {
-        "account": "b2014227",
+        "account": "b2010008",
         "wrapper_script": "/proj/b2010008/bin/sbatch_job"
     },
     "schedule_short": {
@@ -34,7 +34,7 @@
         "hours": 0,
         "minutes": 0,
         "partition": "core",
-        "cores": "2",
+        "cores": "4",
         "extra_parameters": ""
     },
     "schedule_bowtie2_map_large": {
@@ -53,6 +53,54 @@
         "cores": "1",
         "extra_parameters": ""
     },
+    "schedule_remove_mark_duplicates": {
+        "days": 1,
+        "hours": 0,
+        "minutes": 0,
+        "partition": "core",
+        "cores": "6",
+        "extra_parameters": ""
+    },
+    "schedule_bedtools_coverage": {
+        "days": 0,
+        "hours": 6,
+        "minutes": 0,
+        "partition": "core",
+        "cores": "1",
+        "extra_parameters": ""
+    },
+    "schedule_bam_sort": {
+        "days": 0,
+        "hours": 12,
+        "minutes": 0,
+        "partition": "node",
+        "cores": "16",
+        "extra_parameters": ""
+    },
+    "schedule_bowtie2_quant_coverage_table": {
+        "days": 0,
+        "hours": 1,
+        "minutes": 0,
+        "partition": "devel",
+        "cores": "16",
+        "extra_parameters": ""
+    },
+    "schedule_bowtie2_quant_coverage_table_all": "schedule_short",
+    "schedule_bowtie2_quant_all": "schedule_short",
+    "schedule_bowtie2_quant_genes_histogram": {
+        "days": 0,
+        "hours": 6,
+        "minutes": 0,
+        "partition": "core",
+        "cores": "1",
+        "extra_parameters": ""
+    },
+    "schedule_bowtie2_quant_genes": "schedule_short",
+    "schedule_bowtie2_quant_genes_all": "schedule_short",
+    "schedule_prokka_extended_gff_to_bed": "schedule_one_core_medium",
+    "schedule_prokka_extended_merge_bed": "schedule_short",
+    "schedule_sample_merge_no_rmdup": "schedule_short",
+    "schedule_sample_merge": "schedule_short",
     "schedule_bam_sort_index": "schedule_one_core_medium",
     "schedule_rpkm_per_orf": {
         "days": 0,
@@ -144,6 +192,14 @@
         "cores": "1",
         "extra_parameters": ""
     },
+    "schedule_rpsblast_run": {
+        "days": 1,
+        "hours": 0,
+        "minutes": 0,
+        "partition": "node",
+        "cores": "16",
+        "extra_parameters": ""
+    },
     "schedule_prokka_extended_run_rpsblast": {
         "days": 1,
         "hours": 0,
@@ -156,6 +212,15 @@
     "schedule_prokka_extended_rename_before_merge_annotated_sequences": "schedule_short",
     "schedule_prokka_extended_merge_annotated_sequences": "schedule_short",
     "schedule_prokka_extended_merge_annotated_sequences_all": "schedule_short",
+    "schedule_prokka_extended_get_prokka_annotation": {
+        "days": 0,
+        "hours": 1,
+        "minutes": 0,
+        "partition": "core",
+        "cores": 1,
+        "extra_parameters": ""
+    },
+    "schedule_prokka_extended_get_prokka_annotation_all_samples": "schedule_short",
     "schedule_kallisto_quant_all": "schedule_short",
     "schedule_kallisto_index": {
         "days": 2,
@@ -172,5 +237,13 @@
         "partition": "node",
         "cores": "16",
         "extra_parameters": "-C fat"
+    },
+    "schedule_bowtie2_quant_coverage_annotation_table": {
+        "days": 0,
+        "hours": 3,
+        "minutes": 0,
+        "partition": "core",
+        "cores": 2,
+        "extra_parameters": ""
     }
 }

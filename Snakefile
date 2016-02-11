@@ -85,9 +85,11 @@ for read_file in glob.glob("finished_reads/*.fq.gz"):
     else:
         config["megahit_rules"]["samples"][sample_name] = [read_file]
 
+# Add all samples that should be annotated with prokka extended
 for contigs_f in glob.glob("assembly/megahit_coassembly/default/parts/contigs.*.fasta"):
     part = contigs_f.split('.')[-2]
     config["prokka_extended_rules"]["contigs"]['megahit_coassembly.{}'.format(part)] = contigs_f
+    config["prokka_extended_rules"]["locustags"]['megahit_coassembly.{}'.format(part)] = "PROKKA_MOD_PART{}".format(part)
 
 # Add megahit coassembly annotated sequences for merging before quantification
 config["prokka_extended_rules"]["merging_sample_sets"] = {}
@@ -98,22 +100,37 @@ for contigs_name, contigs_f in config["prokka_extended_rules"]["contigs"].items(
 
 config["prokka_extended_rules"]["merging_sample_sets"]["megahit_coassembly"].sort(key= lambda x: int(x.split('.')[-1]))
 
+config["bowtie2_quant_rules"]["split_ref_sets"] = config["prokka_extended_rules"]["merging_sample_sets"]
+
+
 megahit_coassembly_genes = "annotation/prokka_extended/all_annotated_sequences/megahit_coassembly/PROKKA.ffn"
+megahit_coassembly_contigs = "assembly/megahit_coassembly/default/final.contigs.fa"
+
 config["kallisto_rules"]["references"]["megahit_coassembly_genes"] = megahit_coassembly_genes
 config["kallisto_rules"]["samples"] = config["megahit_rules"]["samples"]
 
-config["bowtie2_rules"]["units"] = {}
-config["bowtie2_rules"]["samples"] = {}
+config["bowtie2_quant_rules"]["units"] = {}
+config["bowtie2_quant_rules"]["samples"] = {}
 for i, sample_t in enumerate(config["kallisto_rules"]["samples"].items()):
     sample, units = sample_t
-    config["bowtie2_rules"]["units"][sample] = units
-    config["bowtie2_rules"]["samples"][sample] = [sample]
+    config["bowtie2_quant_rules"]["units"][sample] = units
+    config["bowtie2_quant_rules"]["samples"][sample] = [sample]
 
-config["bowtie2_rules"]["references"] = {"megahit_coassembly_genes": megahit_coassembly_genes}
+config["bowtie2_quant_rules"]["references"] = {"megahit_coassembly_genes": megahit_coassembly_genes}
+config["bowtie2_quant_rules"]["references"]["megahit_coassembly_contigs"] = megahit_coassembly_contigs
+config["bowtie2_quant_rules"]["reference_for_ref_set"]["megahit_coassembly"] = "megahit_coassembly_contigs"
+
+config["bowtie2_rules"]["references"] = config["bowtie2_quant_rules"]["references"]
+config["bowtie2_rules"]["units"] = config["bowtie2_quant_rules"]["units"]
+config["bowtie2_rules"]["samples"] = config["bowtie2_quant_rules"]["samples"]
+config["bowtie2_rules"]["mapping_params"] = config["bowtie2_quant_rules"]["mapping_params"]
+
+
 WORKFLOW_DIR = "snakemake-workflows/"
 
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/mapping/bowtie2.rules")
-#include: os.path.join(WORKFLOW_DIR, "rules/mapping/samfiles.rules")
+include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/mapping/samtools.rules")
+include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/blast/rpsblast.rules")
 #include: os.path.join(WORKFLOW_DIR, "rules/quantification/rpkm.rules")
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/trimming/cutadapt.rules")
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/quality_control/fastqc.rules")
@@ -121,12 +138,11 @@ include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/duplicate_removal/fastuniq.ru
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/assembly/megahit.rules")
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/annotation/prokka.rules")
 include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/quantification/kallisto.rules")
-
+include: os.path.join(WORKFLOW_DIR, "bio/ngs/rules/quantification/bowtie2.rules")
 ruleorder: kallisto_quant_sample > kallisto_sample_merge
 
 # The index is large, need to use .bt2l indices
 ruleorder: bowtie2_map_large > bowtie2_map
-
 
 rule preprocess_all:
     input:
@@ -172,3 +188,5 @@ rule bowtie2_all:
             mapping_params = config["bowtie2_rules"]["mapping_params"],
             reference = config["bowtie2_rules"]["references"],
             unit = config["bowtie2_rules"]["units"])
+
+
