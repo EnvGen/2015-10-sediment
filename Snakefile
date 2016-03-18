@@ -74,6 +74,11 @@ for read_file in glob.glob("samples/raw/*.fq.gz"):
                     config["cutadapt_rules"]["trim_params"][trim_params_name]["variables"] = {}
                 config["cutadapt_rules"]["trim_params"][trim_params_name]["variables"][read_name] = variables
 
+for read_file in glob.glob("samples/raw_rna/*.fq.gz"):
+    read_basename = os.path.basename(read_file)
+    read_name = read_basename.replace(".fq.gz", "")
+    config["fastqc_rules"]["reads"][read_name] = read_file
+
 for read_file in glob.glob("finished_reads/*.fq.gz"):
     read_basename = os.path.basename(read_file)
     read_name = read_basename.replace(".fq.gz", "")
