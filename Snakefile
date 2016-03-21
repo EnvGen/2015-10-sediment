@@ -101,11 +101,13 @@ for read_file in glob.glob("samples/raw_rna/*.fq.gz"):
     for trim_params_name, trim_params_config in config["cutadapt_rules"]["trim_params"].items():
         if "common_variables" in trim_params_config.keys():
             variables = config["cutadapt_rules"]["trim_params"][trim_params_name]["common_variables"].copy()
-            variables["R1_index"] = None
+            variables["R1_index"] = ""
+            variables["R1_end"] = ""
             if "R2_rev_index" in sample_indices:
                 variables["R2_rev_index"] = sample_indices["R2_rev_index"][read_name]
             else:
-                variables["R2_rev_index"] = None
+                variables["R2_rev_index"] = ""
+                variables["R2_rev_first"] = ""
             if "variables" not in config["cutadapt_rules"]["trim_params"][trim_params_name]:
                 config["cutadapt_rules"]["trim_params"][trim_params_name]["variables"] = {}
             config["cutadapt_rules"]["trim_params"][trim_params_name]["variables"][read_name] = variables
