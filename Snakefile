@@ -9,18 +9,18 @@ import glob
 from subprocess import check_output
 
 # Check that no submodule git repo is dirty
-#submodules = ["BLUEPRINT_pipeline"]
-#for submodule in submodules:
-#    submodule_status = check_output(["git", "status", "--porcelain", submodule])
-#    if not submodule_status == b"":
-#        print(submodule_status)
-#        raise Exception("Submodule {} is dirty. Commit changes before proceeding.".format(submodule))
+submodules = ["BLUEPRINT_pipeline"]
+for submodule in submodules:
+    submodule_status = check_output(["git", "status", "--porcelain", submodule])
+    if not submodule_status == b"":
+        print(submodule_status)
+        raise Exception("Submodule {} is dirty. Commit changes before proceeding.".format(submodule))
 
 # Check that the git repo is not dirty
-#submodule_status = check_output(["git", "status", "--porcelain"])
-#if not submodule_status == b"":
-#    print(submodule_status)
-#    raise Exception("Repo is dirty. Commit changes before proceeding.")
+submodule_status = check_output(["git", "status", "--porcelain"])
+if not submodule_status == b"":
+    print(submodule_status)
+    raise Exception("Repo is dirty. Commit changes before proceeding.")
 
 # Chose config file based on if we're on uppmax or not
 configfile: "config.json"
@@ -78,6 +78,37 @@ for read_file in glob.glob("samples/raw_rna/*.fq.gz"):
     read_basename = os.path.basename(read_file)
     read_name = read_basename.replace(".fq.gz", "")
     config["fastqc_rules"]["reads"][read_name] = read_file
+
+    # Add all steps to fastqc - this will cause fastqc to run after each step 
+    # as well as on the raw reads 
+    for trim_params_name, trim_params_dict in config["cutadapt_rules"]["trim_params"].items():
+        config["fastqc_rules"]["reads"]["cutadapt_"+trim_params_name+"_"+read_name] = \
+            "cutadapt/adapt_cutting/{trim_params}/{read}".format(
+                trim_params=trim_params_name,
+                read = read_basename
+            ) 
+
+    # Hack to get read pairs in a list
+    read_name = read_name.replace("_R1", "").replace("_R2", "")
+
+    if read_name in config["cutadapt_rules"]["reads"]:
+        config["cutadapt_rules"]["reads"][read_name].append(read_file)
+        config["cutadapt_rules"]["reads"][read_name].sort()
+    else:
+        config["cutadapt_rules"]["reads"][read_name] = [read_file]
+    
+    # Use no variable barcode sequence for rna
+    for trim_params_name, trim_params_config in config["cutadapt_rules"]["trim_params"].items():
+        if "common_variables" in trim_params_config.keys():
+            variables = config["cutadapt_rules"]["trim_params"][trim_params_name]["common_variables"].copy()
+            variables["R1_index"] = None
+            if "R2_rev_index" in sample_indices:
+                variables["R2_rev_index"] = sample_indices["R2_rev_index"][read_name]
+            else:
+                variables["R2_rev_index"] = None
+            if "variables" not in config["cutadapt_rules"]["trim_params"][trim_params_name]:
+                config["cutadapt_rules"]["trim_params"][trim_params_name]["variables"] = {}
+            config["cutadapt_rules"]["trim_params"][trim_params_name]["variables"][read_name] = variables
 
 for read_file in glob.glob("finished_reads/*.fq.gz"):
     read_basename = os.path.basename(read_file)
