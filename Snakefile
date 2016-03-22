@@ -147,6 +147,17 @@ megahit_coassembly_contigs = "assembly/megahit_coassembly/default/final.contigs.
 config["kallisto_rules"]["references"]["megahit_coassembly_genes"] = megahit_coassembly_genes
 config["kallisto_rules"]["samples"] = config["megahit_rules"]["samples"]
 
+for read_file in glob.glob("finished_reads_rna/*.fq.gz"):
+    read_basename = os.path.basename(read_file)
+    read_name = read_basename.replace(".fq.gz", "")
+    sample_name = read_name.replace("_R1", "").replace("_R2", "")
+    
+    if sample_name in config["kallisto_rules"]["samples"]:
+        config["kallisto_rules"]["samples"][sample_name].append(read_file)
+        config["kallisto_rules"]["samples"][sample_name].sort()
+    else:
+        config["kallisto_rules"]["samples"][sample_name] = [read_file]
+
 config["bowtie2_quant_rules"]["units"] = {}
 config["bowtie2_quant_rules"]["samples"] = {}
 for i, sample_t in enumerate(config["kallisto_rules"]["samples"].items()):
