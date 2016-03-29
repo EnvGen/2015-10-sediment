@@ -246,6 +246,7 @@
         "cores": 2,
         "extra_parameters": ""
     },
+    "schedule_bowtie2_quant_coverage_annotation_table_all": "schedule_short",
     "schedule_bowtie2_rpkm_gene_table": {
         "days": 0,
         "hours": 12,
